@@ -10,14 +10,12 @@ public class RecruiterProfile {
     private int userAccountId;
 
     @OneToOne
-    @JoinColumn(name="user_account_id")
+    @JoinColumn(name = "user_account_id")
     @MapsId
     private Users userId;
 
     private String firstName;
-
     private String lastName;
-
     private String city;
 
     private String state;
@@ -45,7 +43,7 @@ public class RecruiterProfile {
     }
 
     public RecruiterProfile(Users users) {
-        this.userId=users;
+        this.userId = users;
     }
 
     public int getUserAccountId() {
@@ -121,9 +119,8 @@ public class RecruiterProfile {
     }
 
     @Transient
-    public String getPhotosImagePath(){
-        if(profilePhoto==null) return null;
-        System.out.println("Getting Image Path");
+    public String getPhotosImagePath() {
+        if (profilePhoto == null) return null;
         return "/photos/recruiter/" + userAccountId + "/" + profilePhoto;
     }
 

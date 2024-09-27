@@ -167,7 +167,7 @@
                         </form>
                     </div>
                     <div class="col-md-3">
-                        <form th:action="@{/job-details/save/{id}(id=${jobDetails.jobPostId})}" th:object="${applyJob}"
+                        <form th:action="@{/job-details/save/{id}(id=${jobDetails.jobPostId})}" th:object="${saveJob}"
                               method="post">
                             <button class="btn-sec btn-black w-100" type="submit" th:if="${alreadySaved == false}">Save
                                 Job

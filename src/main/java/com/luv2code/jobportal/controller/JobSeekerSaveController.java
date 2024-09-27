@@ -1,9 +1,6 @@
 package com.luv2code.jobportal.controller;
 
-import com.luv2code.jobportal.entity.JobPostActivity;
-import com.luv2code.jobportal.entity.JobSeekerProfile;
-import com.luv2code.jobportal.entity.JobSeekerSave;
-import com.luv2code.jobportal.entity.Users;
+import com.luv2code.jobportal.entity.*;
 import com.luv2code.jobportal.services.JobPostActivityService;
 import com.luv2code.jobportal.services.JobSeekerProfileService;
 import com.luv2code.jobportal.services.JobSeekerSaveService;
@@ -46,6 +43,7 @@ public class JobSeekerSaveController {
             JobPostActivity jobPostActivity = jobPostActivityService.getOne(id);
 
             if (seekerProfile.isPresent() && jobPostActivity != null) {
+                jobSeekerSave = new JobSeekerSave();
                 jobSeekerSave.setJob(jobPostActivity);
                 jobSeekerSave.setUserId(seekerProfile.get());
             } else {

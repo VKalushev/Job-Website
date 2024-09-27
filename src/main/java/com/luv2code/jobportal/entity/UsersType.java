@@ -9,7 +9,7 @@ import java.util.List;
 public class UsersType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userTypeId;
 
     private String userTypeName;
@@ -53,8 +53,8 @@ public class UsersType {
     @Override
     public String toString() {
         return "UsersType{" +
-                "userTypeName='" + userTypeName + '\'' +
-                ", userTypeId=" + userTypeId +
+                "userTypeId=" + userTypeId +
+                ", userTypeName='" + userTypeName + '\'' +
                 '}';
     }
 }

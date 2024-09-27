@@ -24,14 +24,10 @@ public class UsersService {
     private final UsersRepository usersRepository;
     private final JobSeekerProfileRepository jobSeekerProfileRepository;
     private final RecruiterProfileRepository recruiterProfileRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UsersService(UsersRepository usersRepository,
-                        JobSeekerProfileRepository jobSeekerProfileRepository,
-                        RecruiterProfileRepository recruiterProfileRepository,
-                        PasswordEncoder passwordEncoder) {
+    public UsersService(UsersRepository usersRepository, JobSeekerProfileRepository jobSeekerProfileRepository, RecruiterProfileRepository recruiterProfileRepository, PasswordEncoder passwordEncoder) {
         this.usersRepository = usersRepository;
         this.jobSeekerProfileRepository = jobSeekerProfileRepository;
         this.recruiterProfileRepository = recruiterProfileRepository;
@@ -42,33 +38,33 @@ public class UsersService {
         users.setActive(true);
         users.setRegistrationDate(new Date(System.currentTimeMillis()));
         users.setPassword(passwordEncoder.encode(users.getPassword()));
-
-        int userTypeId = users.getUserTypeId().getUserTypeId();
         Users savedUser = usersRepository.save(users);
+        int userTypeId = users.getUserTypeId().getUserTypeId();
 
         if (userTypeId == 1) {
             recruiterProfileRepository.save(new RecruiterProfile(savedUser));
-        } else {
+        }
+        else {
             jobSeekerProfileRepository.save(new JobSeekerProfile(savedUser));
         }
+
         return savedUser;
     }
 
-    public Optional<Users> getUsersByEmail(String email) {
-        return usersRepository.findByEmail(email);
-    }
-
     public Object getCurrentUserProfile() {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String username = authentication.getName();
-            Users user = usersRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Could not find user"));
-            int userId = user.getUserId();
+            Users users = usersRepository.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException("Could not found " + "user"));
+            int userId = users.getUserId();
             if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("Recruiter"))) {
-                return recruiterProfileRepository.findById(userId).orElse(new RecruiterProfile());
+                RecruiterProfile recruiterProfile = recruiterProfileRepository.findById(userId).orElse(new RecruiterProfile());
+                return recruiterProfile;
             } else {
-                return jobSeekerProfileRepository.findById(userId).orElse(new JobSeekerProfile());
+                JobSeekerProfile jobSeekerProfile = jobSeekerProfileRepository.findById(userId).orElse(new JobSeekerProfile());
+                return jobSeekerProfile;
             }
         }
 
@@ -76,15 +72,31 @@ public class UsersService {
     }
 
     public Users getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            return usersRepository.findByEmail(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            String username = authentication.getName();
+            Users user = usersRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Could not found " + "user"));
+            return user;
         }
+
         return null;
     }
 
-    public Users findByEmail(String name) {
-        return usersRepository.findByEmail(name).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public Users findByEmail(String currentUsername) {
+        return usersRepository.findByEmail(currentUsername).orElseThrow(() -> new UsernameNotFoundException("User not " +
+                "found"));
     }
+
+    public Optional<Users> getUserByEmail(String email) {
+        return usersRepository.findByEmail(email);
+    }
+
 }
+
+
+
+
+
+
+

@@ -2,7 +2,6 @@ package com.luv2code.jobportal.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import org.hibernate.usertype.UserType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -23,23 +22,23 @@ public class Users {
 
     private boolean isActive;
 
-    @DateTimeFormat
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date registrationDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="userTypeId", referencedColumnName = "userTypeId")
+    @JoinColumn(name = "userTypeId", referencedColumnName = "userTypeId")
     private UsersType userTypeId;
 
     public Users() {
     }
 
-    public Users(int userId, String email, String password, boolean isActive, Date registrationDate, UsersType userType) {
+    public Users(int userId, String email, String password, boolean isActive, Date registrationDate, UsersType userTypeId) {
         this.userId = userId;
         this.email = email;
         this.password = password;
         this.isActive = isActive;
         this.registrationDate = registrationDate;
-        this.userTypeId = userType;
+        this.userTypeId = userTypeId;
     }
 
     public int getUserId() {
@@ -86,8 +85,8 @@ public class Users {
         return userTypeId;
     }
 
-    public void setUserTypeId(UsersType userType) {
-        this.userTypeId = userType;
+    public void setUserTypeId(UsersType userTypeId) {
+        this.userTypeId = userTypeId;
     }
 
     @Override
@@ -98,7 +97,7 @@ public class Users {
                 ", password='" + password + '\'' +
                 ", isActive=" + isActive +
                 ", registrationDate=" + registrationDate +
-                ", userType=" + userTypeId +
+                ", userTypeId=" + userTypeId +
                 '}';
     }
 }

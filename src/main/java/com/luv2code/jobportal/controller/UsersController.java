@@ -43,7 +43,7 @@ public class UsersController {
     @PostMapping("/register/new")
     public String userRegistration(@Valid Users users, Model model){
 //        System.out.println("User:: " + users);
-        Optional<Users> usersByEmail = usersService.getUsersByEmail(users.getEmail());
+        Optional<Users> usersByEmail = usersService.getUserByEmail(users.getEmail());
 
         if (usersByEmail.isPresent()){
             model.addAttribute("error","User with this email address already exists.");

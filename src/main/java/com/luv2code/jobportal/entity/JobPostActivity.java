@@ -31,21 +31,21 @@ public class JobPostActivity {
     @Transient
     private Boolean isSaved;
 
-    @Length(max=10000)
+    @Length(max = 10000)
     private String descriptionOfJob;
 
     private String jobType;
     private String salary;
     private String remote;
-    private String jobTitle;
 
-    @DateTimeFormat
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date postedDate;
+    private String jobTitle;
 
     public JobPostActivity() {
     }
 
-    public JobPostActivity(Integer jobPostId, Users postedById, JobLocation jobLocationId, JobCompany jobCompanyId, Boolean isActive, Boolean isSaved, String descriptionOfJob, String jobType, String salary, String remote, String jobTitle, Date postedDate) {
+    public JobPostActivity(Integer jobPostId, Users postedById, JobLocation jobLocationId, JobCompany jobCompanyId, Boolean isActive, Boolean isSaved, String descriptionOfJob, String jobType, String salary, String remote, Date postedDate, String jobTitle) {
         this.jobPostId = jobPostId;
         this.postedById = postedById;
         this.jobLocationId = jobLocationId;
@@ -56,8 +56,8 @@ public class JobPostActivity {
         this.jobType = jobType;
         this.salary = salary;
         this.remote = remote;
-        this.jobTitle = jobTitle;
         this.postedDate = postedDate;
+        this.jobTitle = jobTitle;
     }
 
     public Integer getJobPostId() {
@@ -108,11 +108,11 @@ public class JobPostActivity {
         isSaved = saved;
     }
 
-    public @Length(max = 10000) String getDescriptionOfJob() {
+    public String getDescriptionOfJob() {
         return descriptionOfJob;
     }
 
-    public void setDescriptionOfJob(@Length(max = 10000) String descriptionOfJob) {
+    public void setDescriptionOfJob(String descriptionOfJob) {
         this.descriptionOfJob = descriptionOfJob;
     }
 
@@ -140,14 +140,6 @@ public class JobPostActivity {
         this.remote = remote;
     }
 
-    public String getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
-
     public Date getPostedDate() {
         return postedDate;
     }
@@ -156,21 +148,29 @@ public class JobPostActivity {
         this.postedDate = postedDate;
     }
 
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
     @Override
     public String toString() {
         return "JobPostActivity{" +
                 "jobPostId=" + jobPostId +
                 ", postedById=" + postedById +
-                ", jobLocation=" + jobLocationId +
-                ", jobCompany=" + jobCompanyId +
+                ", jobLocationId=" + jobLocationId +
+                ", jobCompanyId=" + jobCompanyId +
                 ", isActive=" + isActive +
                 ", isSaved=" + isSaved +
                 ", descriptionOfJob='" + descriptionOfJob + '\'' +
                 ", jobType='" + jobType + '\'' +
                 ", salary='" + salary + '\'' +
                 ", remote='" + remote + '\'' +
-                ", jobTitle='" + jobTitle + '\'' +
                 ", postedDate=" + postedDate +
+                ", jobTitle='" + jobTitle + '\'' +
                 '}';
     }
 }
